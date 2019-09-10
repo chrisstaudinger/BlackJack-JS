@@ -49,6 +49,16 @@ const blackjack = (obj) => {
   return process.exit("Thanks for playing :)")
 }
 
+const calculateResult = (obj, opponent) => {
+  if (cardTotalValue(obj) > cardTotalValue(opponent)) {
+    return `${obj.name} wins!`
+  } else if (cardTotalValue(obj) < cardTotalValue(opponent)) {
+    return `${opponent.name} wins!`
+  } else {
+    return `Push!\n${obj.name} and ${opponent.name} have tied!`
+  }
+}
+
 const playerMoveMenu = (options) => {
   let userChoice = readLineSync.keyInSelect(options)
   switch (userChoice) {
@@ -102,9 +112,7 @@ const inRoundResultHouse = (obj, opponent) => {
   } else if (cardTotalValue(obj) > 21) {
     return bust(opponent)
   } else {
-    if (cardTotalValue(obj) > cardTotalValue(opponent)) {
-      return `${obj.name} wins!`
-    }
+    console.log(calculateResult(obj, opponent))
   }
 }
 
