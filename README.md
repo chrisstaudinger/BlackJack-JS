@@ -1,7 +1,6 @@
 # Blackjack JS Node App :black_joker:
 
-
-![Blackjack Terminal Screenshot]( "Blackjack Terminal Screenshot")
+![Blackjack Terminal Screenshot](https://github.com/chrisstaudinger/BlackJack-JS/blob/master/assets/images/blackjack-screenshot.png?raw=true "Blackjack Terminal Screenshot")
 
 ### Dependencies
 * npm 'esm'
