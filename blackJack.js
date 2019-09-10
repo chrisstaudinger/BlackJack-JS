@@ -57,17 +57,6 @@ const calculateResult = (obj, opponent) => {
   }
 }
 
-const houseMove = (obj, opponent) => {
-  let cardTotal = cardTotalValue(obj)
-  while (cardTotal < 17) {
-  obj.cards.push(Deck.dealHouse())
-  calcAce(obj)
-  cardTotal = cardTotalValue(obj)
-  console.log(inRoundSummary(obj))
-  console.log(inRoundResultHouse(obj, opponent))
-  }
-}
-
 const inRoundSummary = (obj) => {
   console.log(`${obj.name}'s hand:`)
   console.table(obj.cards)
@@ -92,6 +81,17 @@ const inRoundResultHouse = (obj, opponent) => {
     return bust(opponent)
   } else {
     console.log(calculateResult(obj, opponent))
+  }
+}
+
+const houseMove = (obj, opponent) => {
+  let cardTotal = cardTotalValue(obj)
+  while (cardTotal < 17) {
+  obj.cards.push(Deck.dealHouse())
+  calcAce(obj)
+  cardTotal = cardTotalValue(obj)
+  console.log(inRoundSummary(obj))
+  console.log(inRoundResultHouse(obj, opponent))
   }
 }
 
@@ -126,5 +126,5 @@ const startGameMenu = (options) => {
 }
 
 
-console.log(Deck.shuffle(30))
+Deck.shuffle(30)
 console.log(startGameMenu(startGameOptions))
