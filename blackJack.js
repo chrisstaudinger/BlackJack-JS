@@ -3,12 +3,9 @@ const readLineSync = require('readline-sync')
 
 const playerName = () => readLineSync.question("Please enter your Player name: ")
 
-
 const startGameOptions = [
     "Deal"
 ]
-
-const aceOptions = [""]
 
 const player = {
   name: playerName(),
@@ -40,17 +37,6 @@ const calcAce = (obj) => {
   }
 }
 
-const houseMove = (obj, opponent) => {
-  let cardTotal = cardTotalValue(obj)
-  while (cardTotal < 17) {
-  obj.cards.push(Deck.dealHouse())
-  calcAce(obj)
-  cardTotal = cardTotalValue(obj)
-  console.log(inRoundSummary(obj))
-  console.log(inRoundResultHouse(obj, opponent))
-  }
-}
-
 const bust = (opponent) => {
   console.log(`Bust!\n${opponent.name} wins!`)
   return process.exit("Thanks for playing :)")
@@ -68,6 +54,44 @@ const calculateResult = (obj, opponent) => {
     return `${opponent.name} wins!`
   } else {
     return `Push!\n${obj.name} and ${opponent.name} have tied!`
+  }
+}
+
+const houseMove = (obj, opponent) => {
+  let cardTotal = cardTotalValue(obj)
+  while (cardTotal < 17) {
+  obj.cards.push(Deck.dealHouse())
+  calcAce(obj)
+  cardTotal = cardTotalValue(obj)
+  console.log(inRoundSummary(obj))
+  console.log(inRoundResultHouse(obj, opponent))
+  }
+}
+
+const inRoundSummary = (obj) => {
+  console.log(`${obj.name}'s hand:`)
+  console.table(obj.cards)
+  let cardTotal = cardTotalValue(obj)
+  return `${obj.name}'s total card value is ${cardTotal}\n`
+}
+
+const inRoundResult = (player, opponent) => {
+  if (cardTotalValue(player) === 21) {
+    return blackjack(player)
+  } else if (cardTotalValue(player) > 21) {
+    return bust(opponent)
+  } else {
+    return "It's your move. What would you like to do?"
+  }
+}
+
+const inRoundResultHouse = (obj, opponent) => {
+  if (cardTotalValue(obj) === 21) {
+    return blackjack(obj)
+  } else if (cardTotalValue(obj) > 21) {
+    return bust(opponent)
+  } else {
+    console.log(calculateResult(obj, opponent))
   }
 }
 
@@ -101,34 +125,6 @@ const startGameMenu = (options) => {
   } 
 }
 
-const inRoundSummary = (obj) => {
-  obj.cards.forEach(card => {
-    console.log(`${obj.name} has a ${card.type}`)
-  })
-  let cardTotal = cardTotalValue(obj)
-  return `${obj.name}'s total card value is ${cardTotal}\n`
-}
 
-const inRoundResult = (player, opponent) => {
-  if (cardTotalValue(player) === 21) {
-    return blackjack(player)
-  } else if (cardTotalValue(player) > 21) {
-    return bust(opponent)
-  } else {
-    return "It's your move. What would you like to do?"
-  }
-}
-
-const inRoundResultHouse = (obj, opponent) => {
-  if (cardTotalValue(obj) === 21) {
-    return blackjack(obj)
-  } else if (cardTotalValue(obj) > 21) {
-    return bust(opponent)
-  } else {
-    console.log(calculateResult(obj, opponent))
-  }
-}
-
-
-Deck.shuffle(30)
+console.log(Deck.shuffle(30))
 console.log(startGameMenu(startGameOptions))
