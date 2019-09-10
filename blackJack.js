@@ -29,10 +29,22 @@ const cardTotalValue = (obj) => {
   return totalCardValue
 }
 
+const calcAce = (obj) => {
+  if (cardTotalValue(obj) > 21) {
+    obj.cards.forEach(card => {
+      if (card.type.includes('Ace')) {
+        card.value = 1
+      }
+    })
+    return cardTotalValue(obj)
+  }
+}
+
 const houseMove = (obj, opponent) => {
   let cardTotal = cardTotalValue(obj)
   while (cardTotal < 17) {
   obj.cards.push(Deck.dealHouse())
+  calcAce(obj)
   cardTotal = cardTotalValue(obj)
   console.log(inRoundSummary(obj))
   console.log(inRoundResultHouse(obj, opponent))
@@ -64,6 +76,7 @@ const playerMoveMenu = (options) => {
   switch (userChoice) {
     case 0:
       player.cards.push(Deck.dealPlayer())
+      calcAce(player)
       console.log(inRoundSummary(player))
       console.log(inRoundResult(player, house))
       playerMoveMenu(options)
